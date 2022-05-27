@@ -1,12 +1,12 @@
 import './App.css';
+import GameScreen from './components/GameScreen/GameScreen';
 import Header from './components/Header/Header';
-import Setup from './components/setup/Setup';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Setup />
+      <GameScreen />
     </div>
   );
 }
