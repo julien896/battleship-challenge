@@ -21,6 +21,7 @@ function ShipsDisposition({ availableShips, selectShip, currentlyPlacing }) {
 
   return (
     <div className="replica-fleet">
+      <span>Place your ships on the board.</span>
       {shipReplicaBoxes}
       <span className="player-tip">
         Right click to rotate <br />

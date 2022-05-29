@@ -5,7 +5,7 @@ import { savePlayerName } from '../../../../app/slices/playerSlice';
 import { setGameState } from '../../../../app/slices/gameStateSlice';
 import './gameStart.scss';
 
-function GameStart() {
+function GameStart({ generateCpuShips }) {
   const [playerName, setPlayerName] = useState('');
 
   const dispatch = useDispatch();
@@ -13,6 +13,7 @@ function GameStart() {
   const startTurn = () => {
     dispatch(savePlayerName(playerName));
     dispatch(setGameState('player-turn'));
+    generateCpuShips()
   };
 
   return (

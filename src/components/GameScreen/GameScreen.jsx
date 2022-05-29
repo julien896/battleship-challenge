@@ -4,6 +4,7 @@ import CpuBoard from '../CpuBoard/CpuBoard';
 import PlayerBoard from '../PlayerBoard/PlayerBoard';
 import PlayerPanel from '../PlayerPanel';
 import AVAILABLE_SHIPS from '../../constants/game';
+import { placeAllCpuShips } from '../../constants/layout';
 import './gameScreen.scss';
 
 function GameScreen() {
@@ -12,6 +13,7 @@ function GameScreen() {
 
   const [currentlyPlacing, setCurrentlyPlacing] = useState(null);
   const [placedShips, setPlacedShips] = useState([]);
+  const [cpuShips, setCpuShips] = useState([]);
 
   // *** PLAYER ***
   const selectShip = (shipName) => {
@@ -30,8 +32,8 @@ function GameScreen() {
       ...placedShips,
       {
         ...currentlyPlacing,
-        placed: true,
-      },
+        placed: true
+      }
     ]);
 
     setAvailableShips((previousShips) =>
@@ -46,20 +48,30 @@ function GameScreen() {
       setCurrentlyPlacing({
         ...currentlyPlacing,
         orientation:
-          currentlyPlacing.orientation === 'vertical' ? 'horizontal' : 'vertical',
+          currentlyPlacing.orientation === 'vertical'
+            ? 'horizontal'
+            : 'vertical'
       });
     }
   };
+
+  // *** CPU ***
+  const generateCpuShips = () => {
+    const placedCpuShips = placeAllCpuShips(AVAILABLE_SHIPS.slice());
+    setCpuShips(placedCpuShips);
+  };
+  console.log(cpuShips);
   return (
     <div className="game-screen">
       <PlayerPanel
         availableShips={availableShips}
         selectShip={selectShip}
         currentlyPlacing={currentlyPlacing}
+        generateCpuShips={generateCpuShips}
       />
-      <PlayerBoard 
-        placeShip={placeShip} 
-        placedShips={placedShips} 
+      <PlayerBoard
+        placeShip={placeShip}
+        placedShips={placedShips}
         currentlyPlacing={currentlyPlacing}
         setCurrentlyPlacing={setCurrentlyPlacing}
         rotateShip={rotateShip}

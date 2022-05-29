@@ -1,4 +1,7 @@
-/* eslint-disable */
+/* eslint-disable no-plusplus */
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+
 export const BOARD_ROWS = 10;
 export const BOARD_COLUMNS = 10;
 export const BOARD = BOARD_COLUMNS * BOARD_ROWS;
@@ -118,3 +121,40 @@ export const calculateOverhang = (entity) =>
 
 export const canBePlaced = (entity, layout) =>
   isWithinBounds(entity) && isPlaceFree(entity, layout);
+
+export const generateRandomOrientation = () => {
+  const randomNumber = Math.floor(Math.random() * Math.floor(2));
+
+  return randomNumber === 1 ? 'vertical' : 'horizontal';
+};
+
+export const generateRandomIndex = (value = BOARD) =>
+  Math.floor(Math.random() * Math.floor(value));
+
+export const randomizeShipProps = (ship) => {
+  const randomStartIndex = generateRandomIndex();
+
+  return {
+    ...ship,
+    position: indexToCoords(randomStartIndex),
+    orientation: generateRandomOrientation()
+  };
+};
+
+export const placeAllCpuShips = (cpuShips) => {
+  let cpuLayout = generateEmptyLayout();
+  return cpuShips.map((ship) => {
+    while (!canBePlaced(ship, cpuLayout)) {
+      const decoratedShip = randomizeShipProps(ship);
+
+      if (canBePlaced(decoratedShip, cpuLayout)) {
+        cpuLayout = putEntityInLayout(
+          cpuLayout,
+          decoratedShip,
+          SQUARE_STATE.ship
+        );
+        return { ...decoratedShip, placed: true };
+      }
+    }
+  });
+};
