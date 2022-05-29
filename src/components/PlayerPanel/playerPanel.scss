@@ -1,8 +1,16 @@
+@use '../../styles/variables' as *;
+
 .replica-fleet {
     padding: 1em;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    & .player-tip {
+      font-size: 16px;
+      color: $black;
+      font-weight: 500;
+    }
   }
   
 .replica-fleet > * + * {

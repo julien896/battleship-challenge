@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   generateEmptyLayout,
   stateToClassName,
@@ -18,6 +19,9 @@ function PlayerBoard({
   setCurrentlyPlacing,
   rotateShip
 }) {
+
+  const playerName = useSelector(state => state.player.name)
+
   let layout = placedShips.reduce(
     (prevLayout, currentShip) =>
       putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
@@ -64,7 +68,7 @@ function PlayerBoard({
   ));
   return (
     <div className="board-container">
-      <h2 className="player-name">Player1</h2>
+      <h2 className="player-name">{playerName}</h2>
       <div className="board">{squares}</div>
     </div>
   );
