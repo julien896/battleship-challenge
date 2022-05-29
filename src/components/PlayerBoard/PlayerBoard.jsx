@@ -50,6 +50,7 @@ function PlayerBoard({
       }}
       className={`square ${stateToClassName[square]}`}
       id={`square-${index}`}
+      onContextMenu={(e)=> e.preventDefault()}
       onMouseDown={rotateShip}
       onMouseOver={() => {
         if (currentlyPlacing) {
