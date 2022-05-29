@@ -16,7 +16,9 @@ function PlayerPanel({ availableShips, selectShip, currentlyPlacing }) {
     <ShipReplica
       key={shipName}
       shipName={shipName}
-      currentlyPlacing={currentlyPlacing}
+      isCurrentlyPlacing={
+        currentlyPlacing && currentlyPlacing.name === shipName
+      }
       selectShip={selectShip}
       availableShips={availableShips}
     />
@@ -50,11 +52,7 @@ function PlayerPanel({ availableShips, selectShip, currentlyPlacing }) {
     </div>
   );
 
-  return (
-  <div>
-      {fleet}
-  </div>
-  );
+  return <div>{fleet}</div>;
 }
 
 export default PlayerPanel;

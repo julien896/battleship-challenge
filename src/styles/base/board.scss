@@ -26,12 +26,49 @@
             transition: background-color 100ms ease-in-out;
         }
     
+        /* Empty Square */
         & .empty {
             background-color: $gray-1;
             &:hover {
                 background-color: $yellow-1;
             }
         }
+
+        /* Ship */
+        & .ship {
+            background-color: $gray-5;
+            border: 1px solid $gray-5;
+            &:hover {
+                background-color: $gray-7;
+              }  
+        }
+
+        /* Hit */
+        & .hit {
+            background-color: $orange;
+            border: 1px solid $orange;
+        }
+          
+        /* Miss */ 
+        & .miss {
+            background-color: $light-blue;
+            border: 1px solid $light-blue;
+        }
+          
+        /* Sunk ship */          
+        & .ship-sunk {
+            background-color: $red;
+            border: 1px solid $red;
+            animation: shake 50ms 6 alternate backwards;
+        }
+          
+        /* Forbidden Square  */
+        & .forbidden {
+            background-color: $clear-red-1;
+            border: 1px solid $clear-red-2;
+        }
       }
 }
 
+
+  

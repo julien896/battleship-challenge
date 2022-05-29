@@ -1,5 +1,9 @@
+@use '../../styles/variables' as *;
+
 .header-container {
     width: 100%;
     display: flex;
     justify-content: center;
+    background: $black;
+    color: $gray-1
 }

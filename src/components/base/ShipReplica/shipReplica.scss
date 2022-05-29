@@ -32,3 +32,11 @@
   border: 1px solid $blue;
   background-color: $yellow;
 }
+
+.placing {
+  background-color: $blue-1;
+}
+
+.placing:hover {
+  background-color: $light-blue;
+}

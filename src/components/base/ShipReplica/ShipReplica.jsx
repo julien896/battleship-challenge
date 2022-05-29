@@ -2,7 +2,7 @@
 import React from 'react';
 import './shipReplica.scss';
 
-function ShipReplica({ shipName, availableShips, selectShip }) {
+function ShipReplica({ shipName, availableShips, selectShip, isCurrentlyPlacing }) {
   const ship = availableShips.find((item) => item.name === shipName);
   const shipLength = new Array(ship.length).fill('ship');
   const allReplicaSquares = shipLength.map((item, index) => (
@@ -11,7 +11,7 @@ function ShipReplica({ shipName, availableShips, selectShip }) {
 
   return (
     <div 
-      className="replica"
+      className={isCurrentlyPlacing ? 'replica placing' : 'replica'}
       onClick={() => selectShip(shipName)}
       key={`${shipName}`}
     >
