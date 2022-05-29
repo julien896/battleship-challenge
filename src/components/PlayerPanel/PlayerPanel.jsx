@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ShipReplica from '../base/ShipReplica';
+import ShipReplica from '../base/ShipReplica/ShipReplica';
 import { savePlayerName } from '../../app/slices/playerSlice';
 import './playerPanel.scss';
 

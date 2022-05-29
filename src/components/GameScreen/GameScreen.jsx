@@ -23,7 +23,7 @@ function GameScreen() {
         position: null,
       });
     };
-
+    console.log("currentlyPlacing", currentlyPlacing);
   return (
     <div className="game-screen">
       <PlayerPanel

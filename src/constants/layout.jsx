@@ -21,3 +21,6 @@ export const stateToClassName = {
   [SQUARE_STATE.forbidden]: 'forbidden',
   [SQUARE_STATE.awaiting]: 'awaiting'
 };
+
+export const generateEmptyLayout = () =>
+  new Array(BOARD_ROWS * BOARD_COLUMNS).fill(SQUARE_STATE.empty);
