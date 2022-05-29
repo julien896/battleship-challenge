@@ -1,10 +1,9 @@
 /* eslint-disable */
 import React from 'react';
-import ShipReplica from '../base/ShipReplica/ShipReplica';
-import GameStart from './GameStart/GameStart';
-import './playerPanel.scss';
+import ShipReplica from '../../../base/ShipReplica/ShipReplica';
+import './shipsDisposition.scss';
 
-function PlayerPanel({ availableShips, selectShip, currentlyPlacing }) {
+function ShipsDisposition({ availableShips, selectShip, currentlyPlacing }) {
   const shipsLeft = availableShips.map((ship) => ship.name);
 
   /*  For every ship still available, return a Replica Box */
@@ -20,20 +19,16 @@ function PlayerPanel({ availableShips, selectShip, currentlyPlacing }) {
     />
   ));
 
-  // TODO: Put the comments of game state and the fleet to be placed
-  const fleet = (
+  return (
     <div className="replica-fleet">
       {shipReplicaBoxes}
-      <span className="player-tip">Right click to rotate <br/>before you position.</span>
+      <span className="player-tip">
+        Right click to rotate <br />
+        before you position.
+      </span>
       <p className="restart">Restart</p>
     </div>
   );
-
-  return ( 
-  <div>
-      {availableShips.length > 0 ? fleet : <GameStart />}
-  </div>
-  );
 }
 
-export default PlayerPanel;
+export default ShipsDisposition;

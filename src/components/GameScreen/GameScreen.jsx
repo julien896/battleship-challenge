@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import CpuBoard from '../CpuBoard/CpuBoard';
 import PlayerBoard from '../PlayerBoard/PlayerBoard';
-import PlayerPanel from '../PlayerPanel/PlayerPanel';
+import PlayerPanel from '../PlayerPanel';
 import AVAILABLE_SHIPS from '../../constants/game';
 import './gameScreen.scss';
 

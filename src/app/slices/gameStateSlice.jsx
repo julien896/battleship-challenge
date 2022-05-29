@@ -4,11 +4,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const gameStateSlice = createSlice({
   name: 'state',
   initialState: {
-    state: 'placement'
+    gameState: 'placement'
   },
   reducers: {
     setGameState: (state, action) => {
-      state.name = action.payload;
+      state.gameState = action.payload;
     }
   }
 });

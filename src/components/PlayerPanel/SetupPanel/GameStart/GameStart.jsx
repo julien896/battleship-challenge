@@ -1,14 +1,18 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { savePlayerName } from '../../../app/slices/playerSlice';
+import { savePlayerName } from '../../../../app/slices/playerSlice';
+import { setGameState } from '../../../../app/slices/gameStateSlice';
 import './gameStart.scss';
 
 function GameStart() {
   const [playerName, setPlayerName] = useState('');
+
   const dispatch = useDispatch();
 
   const startTurn = () => {
     dispatch(savePlayerName(playerName));
+    dispatch(setGameState('player-turn'));
   };
 
   return (
