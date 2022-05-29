@@ -1,5 +1,6 @@
 .game-screen {
   width: 100%;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-column-gap: 20px;
 }

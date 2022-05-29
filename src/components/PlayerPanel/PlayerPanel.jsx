@@ -3,19 +3,21 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ShipReplica from '../base/ShipReplica';
 import { savePlayerName } from '../../app/slices/playerSlice';
+import './playerPanel.scss';
 
-function PlayerPanel({ availableShips }) {
+function PlayerPanel({ availableShips, selectShip, currentlyPlacing }) {
   const [playerName, setPlayerName] = useState('');
   const dispatch = useDispatch();
 
   const shipsLeft = availableShips.map((ship) => ship.name);
-  console.log("available ships", availableShips)
 
   /*  For every ship still available, return a Replica Box */
   const shipReplicaBoxes = shipsLeft.map((shipName) => (
     <ShipReplica
       key={shipName}
       shipName={shipName}
+      currentlyPlacing={currentlyPlacing}
+      selectShip={selectShip}
       availableShips={availableShips}
     />
   ));
@@ -48,7 +50,11 @@ function PlayerPanel({ availableShips }) {
     </div>
   );
 
-  return <div>Player panel</div>;
+  return (
+  <div>
+      {fleet}
+  </div>
+  );
 }
 
 export default PlayerPanel;

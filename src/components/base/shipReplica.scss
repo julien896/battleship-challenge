@@ -1,0 +1,32 @@
+@use '../../styles/variables' as *;
+
+.replica,
+.replica-squares {
+  display: flex;
+  flex-direction: row;
+}
+
+.replica {
+  width: 150px;
+  height: 35px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $blue;
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px hsla(0, 0%, 0.2);
+}
+
+.replica-title {
+    font-size: 14px;
+    text-transform: capitalize;
+    color: white;
+  }
+  
+  .small-square {
+    width: 10px;
+    height: 10px;
+    border: 1px solid $blue;
+    background-color: $yellow;
+  }
