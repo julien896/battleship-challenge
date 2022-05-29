@@ -15,7 +15,8 @@ function PlayerBoard({
   placeShip,
   placedShips,
   currentlyPlacing,
-  setCurrentlyPlacing
+  setCurrentlyPlacing,
+  rotateShip
 }) {
   let layout = placedShips.reduce(
     (prevLayout, currentShip) =>
@@ -49,6 +50,7 @@ function PlayerBoard({
       }}
       className={`square ${stateToClassName[square]}`}
       id={`square-${index}`}
+      onMouseDown={rotateShip}
       onMouseOver={() => {
         if (currentlyPlacing) {
           setCurrentlyPlacing({

@@ -40,6 +40,16 @@ function GameScreen() {
 
     setCurrentlyPlacing(null);
   };
+
+  const rotateShip = (event) => {
+    if (currentlyPlacing != null && event.button === 2) {
+      setCurrentlyPlacing({
+        ...currentlyPlacing,
+        orientation:
+          currentlyPlacing.orientation === 'vertical' ? 'horizontal' : 'vertical',
+      });
+    }
+  };
   return (
     <div className="game-screen">
       <PlayerPanel
@@ -52,6 +62,7 @@ function GameScreen() {
         placedShips={placedShips} 
         currentlyPlacing={currentlyPlacing}
         setCurrentlyPlacing={setCurrentlyPlacing}
+        rotateShip={rotateShip}
       />
       <CpuBoard />
     </div>
