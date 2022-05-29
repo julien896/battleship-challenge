@@ -1,14 +1,29 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import ShipReplica from '../base/ShipReplica';
 import { savePlayerName } from '../../app/slices/playerSlice';
 
-function PlayerPanel() {
+function PlayerPanel({ availableShips }) {
   const [playerName, setPlayerName] = useState('');
   const dispatch = useDispatch();
+
+  const shipsLeft = availableShips.map((ship) => ship.name);
+  console.log("available ships", availableShips)
+
+  /*  For every ship still available, return a Replica Box */
+  const shipReplicaBoxes = shipsLeft.map((shipName) => (
+    <ShipReplica
+      key={shipName}
+      shipName={shipName}
+      availableShips={availableShips}
+    />
+  ));
 
   // TODO: Put the comments of game state and the fleet to be placed
   const fleet = (
     <div className="replica-fleet">
+      {shipReplicaBoxes}
       <p className="restart">Restart</p>
     </div>
   );
@@ -32,7 +47,6 @@ function PlayerPanel() {
       </button>
     </div>
   );
-  console.log(playButton, fleet);
 
   return <div>Player panel</div>;
 }
