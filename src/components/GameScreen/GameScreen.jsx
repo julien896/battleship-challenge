@@ -15,6 +15,9 @@ function GameScreen() {
   const [placedShips, setPlacedShips] = useState([]);
   const [cpuShips, setCpuShips] = useState([]);
 
+  const [hitsByPlayer, setHitsByPlayer] = useState([]);
+  const [hitsByComputer, setHitsByComputer] = useState([]);
+
   // *** PLAYER ***
   const selectShip = (shipName) => {
     const shipIdx = availableShips.findIndex((ship) => ship.name === shipName);
@@ -77,6 +80,8 @@ function GameScreen() {
       />
       <CpuBoard 
         cpuShips={cpuShips}
+        hitsByPlayer={hitsByPlayer}
+        setHitsByPlayer={setHitsByPlayer}
       />
     </div>
   );
