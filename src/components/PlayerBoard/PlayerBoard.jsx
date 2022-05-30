@@ -17,15 +17,29 @@ function PlayerBoard({
   placedShips,
   currentlyPlacing,
   setCurrentlyPlacing,
-  rotateShip
+  rotateShip,
+  hitsByComputer
 }) {
-
-  const playerName = useSelector(state => state.player.name)
+  const playerName = useSelector((state) => state.player.name);
 
   let layout = placedShips.reduce(
     (prevLayout, currentShip) =>
       putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
     generateEmptyLayout()
+  );
+
+  layout = hitsByComputer.reduce(
+    (prevLayout, currentHit) =>
+      putEntityInLayout(prevLayout, currentHit, currentHit.type),
+    layout
+  );
+
+  layout = placedShips.reduce(
+    (prevLayout, currentShip) =>
+      currentShip.sunk
+        ? putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship_sunk)
+        : prevLayout,
+    layout
   );
 
   const isPlacingOverBoard =
@@ -54,7 +68,7 @@ function PlayerBoard({
       }}
       className={`square ${stateToClassName[square]}`}
       id={`square-${index}`}
-      onContextMenu={(e)=> e.preventDefault()}
+      onContextMenu={(e) => e.preventDefault()}
       onMouseDown={rotateShip}
       onMouseOver={() => {
         if (currentlyPlacing) {

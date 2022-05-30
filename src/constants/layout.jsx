@@ -176,3 +176,63 @@ export const updateSunkShips = (currentHits, opponentShips) => {
 
   return shipsWithSunkFlag;
 };
+
+export const getNeighbors = (coords) => {
+  const firstRow = coords.y === 0;
+  const lastRow = coords.y === 9;
+  const firstColumn = coords.x === 0;
+  const lastColumn = coords.x === 9;
+
+  const neighbors = [];
+
+  if (firstRow) {
+    neighbors.push(
+      { x: coords.x + 1, y: coords.y },
+      { x: coords.x - 1, y: coords.y },
+      { x: coords.x, y: coords.y + 1 }
+    );
+  }
+
+  if (lastRow) {
+    neighbors.push(
+      { x: coords.x + 1, y: coords.y },
+      { x: coords.x - 1, y: coords.y },
+      { x: coords.x, y: coords.y - 1 }
+    );
+  }
+
+  if (firstColumn) {
+    neighbors.push(
+      { x: coords.x + 1, y: coords.y },
+      { x: coords.x, y: coords.y + 1 },
+      { x: coords.x, y: coords.y - 1 }
+    );
+  }
+
+  if (lastColumn) {
+    neighbors.push(
+      { x: coords.x - 1, y: coords.y },
+      { x: coords.x, y: coords.y + 1 },
+      { x: coords.x, y: coords.y - 1 }
+    );
+  }
+
+  if (!lastColumn || !firstColumn || !lastRow || !firstRow) {
+    neighbors.push(
+      { x: coords.x - 1, y: coords.y },
+      { x: coords.x + 1, y: coords.y },
+      { x: coords.x, y: coords.y - 1 },
+      { x: coords.x, y: coords.y + 1 }
+    );
+  }
+  console.log('neighbors', neighbors);
+  const filteredResult = [
+    ...new Set(
+      neighbors
+        .map((coord) => coordsToIndex(coord))
+        .filter((number) => number >= 0 && number < BOARD)
+    )
+  ];
+
+  return filteredResult;
+};

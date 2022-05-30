@@ -1,13 +1,28 @@
 /* eslint-disable */
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGameState } from '../../app/slices/gameStateSlice';
 import CpuBoard from '../CpuBoard/CpuBoard';
 import PlayerBoard from '../PlayerBoard/PlayerBoard';
 import PlayerPanel from '../PlayerPanel';
 import AVAILABLE_SHIPS from '../../constants/game';
-import { placeAllCpuShips } from '../../constants/layout';
+import {
+  placeAllCpuShips,
+  updateSunkShips,
+  coordsToIndex,
+  indexToCoords,
+  generateEmptyLayout,
+  putEntityInLayout,
+  SQUARE_STATE,
+  generateRandomIndex,
+  getNeighbors
+} from '../../constants/layout';
 import './gameScreen.scss';
 
 function GameScreen() {
+  const dispatch = useDispatch();
+  const gameState = useSelector((state) => state.gameState.gameState);
+
   const [winner, setWinner] = useState(null);
   const [availableShips, setAvailableShips] = useState(AVAILABLE_SHIPS);
 
@@ -58,10 +73,95 @@ function GameScreen() {
     }
   };
 
+  const changeTurn = () => {
+    gameState === 'player-turn'
+      ? dispatch(setGameState('cpu-turn'))
+      : dispatch(setGameState('player-turn'));
+  };
+
   // *** CPU ***
   const generateCpuShips = () => {
     const placedCpuShips = placeAllCpuShips(AVAILABLE_SHIPS.slice());
     setCpuShips(placedCpuShips);
+  };
+
+  const cpuFire = (index, layout) => {
+    let cpuHits;
+
+    if (layout[index] === 'ship') {
+      cpuHits = [
+        ...hitsByComputer,
+        {
+          position: indexToCoords(index),
+          type: SQUARE_STATE.hit
+        }
+      ];
+    }
+    if (layout[index] === 'empty') {
+      cpuHits = [
+        ...hitsByComputer,
+        {
+          position: indexToCoords(index),
+          type: SQUARE_STATE.miss
+        }
+      ];
+    }
+    const sunkShips = updateSunkShips(cpuHits, placedShips);
+    setPlacedShips(sunkShips);
+    setHitsByComputer(cpuHits);
+  };
+
+  const handleCpuTurn = () => {
+    changeTurn();
+
+    let layout = placedShips.reduce(
+      (prevLayout, currentShip) =>
+        putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
+      generateEmptyLayout()
+    );
+
+    layout = hitsByComputer.reduce(
+      (prevLayout, currentHit) =>
+        putEntityInLayout(prevLayout, currentHit, currentHit.type),
+      layout
+    );
+
+    layout = placedShips.reduce(
+      (prevLayout, currentShip) =>
+        currentShip.sunk
+          ? putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship_sunk)
+          : prevLayout,
+      layout
+    );
+
+    const successfulCpuHits = hitsByComputer.filter(
+      (hit) => hit.type === 'hit'
+    );
+
+    const nonSunkCpuHits = successfulCpuHits.filter((hit) => {
+      const hitIndex = coordsToIndex(hit.position);
+      return layout[hitIndex] === 'hit';
+    });
+
+    let potentialTargets = nonSunkCpuHits
+      .flatMap((hit) => getNeighbors(hit.position))
+      .filter((idx) => layout[idx] === 'empty' || layout[idx] === 'ship');
+
+    if (potentialTargets.length === 0) {
+      const layoutIndices = layout.map((item, idx) => idx);
+      potentialTargets = layoutIndices.filter(
+        (index) => layout[index] === 'ship' || layout[index] === 'empty'
+      );
+    }
+
+    const randomIndex = generateRandomIndex(potentialTargets.length);
+
+    const target = potentialTargets[randomIndex];
+
+    setTimeout(() => {
+      cpuFire(target, layout);
+      dispatch(setGameState('player-turn'));
+    }, 800);
   };
   return (
     <div className="game-screen">
@@ -77,12 +177,14 @@ function GameScreen() {
         currentlyPlacing={currentlyPlacing}
         setCurrentlyPlacing={setCurrentlyPlacing}
         rotateShip={rotateShip}
+        hitsByComputer={hitsByComputer}
       />
-      <CpuBoard 
+      <CpuBoard
         cpuShips={cpuShips}
         setCpuShips={setCpuShips}
         hitsByPlayer={hitsByPlayer}
         setHitsByPlayer={setHitsByPlayer}
+        handleCpuTurn={handleCpuTurn}
       />
     </div>
   );

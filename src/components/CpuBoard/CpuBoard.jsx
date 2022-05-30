@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   generateEmptyLayout,
   stateToClassName,
@@ -10,7 +11,15 @@ import {
 } from '../../constants/layout';
 import '../../styles/base/board.scss';
 
-function CpuBoard({ cpuShips, hitsByPlayer, setHitsByPlayer, setCpuShips }) {
+function CpuBoard({
+  cpuShips,
+  hitsByPlayer,
+  setHitsByPlayer,
+  setCpuShips,
+  handleCpuTurn
+}) {
+  const gameState = useSelector((state) => state.gameState.gameState);
+
   let cpuLayout = cpuShips.reduce(
     (prevLayout, currentShip) =>
       putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
@@ -56,6 +65,13 @@ function CpuBoard({ cpuShips, hitsByPlayer, setHitsByPlayer, setCpuShips }) {
     }
   };
 
+  const playerTurn = gameState === 'player-turn';
+
+  const alreadyHit = (index) =>
+    cpuLayout[index] === 'hit' ||
+    cpuLayout[index] === 'miss' ||
+    cpuLayout[index] === 'ship-sunk';
+
   const cpuSquares = cpuLayout.map((square, index) => (
     <div
       className={
@@ -67,9 +83,12 @@ function CpuBoard({ cpuShips, hitsByPlayer, setHitsByPlayer, setCpuShips }) {
       }
       id={`comp-square-${index}`}
       onClick={() => {
+        if (playerTurn && !alreadyHit(index)) {
           const newHits = playerFire(index);
           const shipsWithSunkFlag = updateSunkShips(newHits, cpuShips);
           setCpuShips(shipsWithSunkFlag);
+          handleCpuTurn();
+        }
       }}
     />
   ));
