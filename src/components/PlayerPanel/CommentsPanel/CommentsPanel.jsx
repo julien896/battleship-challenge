@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from 'react';
+import './commentsPanel.scss';
 
 function CommentsPanel({
   winner,
@@ -28,19 +29,19 @@ function CommentsPanel({
 
   const comments = (
     <div className="comments">
-      <div className="title">The first to sink all 5 opponent ships wins.</div>
-      <div>
+      <div className="title">The first to sink all 5<br />opponent ships wins.</div>
+      {hitsByComputer.length > 0 || hitsByPlayer.length > 0 ? (
+      <div className="fire-comments">
         {gameState === 'player-turn'
-          ? hitsByComputer.length &&
-            `${hitsByComputer[hitsByComputer.length - 1].type.toUpperCase()}!`
-          : hitsByPlayer.length &&
-            `${hitsByPlayer[hitsByPlayer.length - 1].type.toUpperCase()}!`}
+          ? `CPU last shot: ${hitsByComputer[hitsByComputer.length - 1].type.toUpperCase()}!`
+          : `Your last shot: ${hitsByPlayer[hitsByPlayer.length - 1].type.toUpperCase()}!`}
       </div>
+      ) : null}
       <div>
         <p className="game-state">
           {gameState === 'player-turn' ? 'Playing: You' : 'Playing: CPU'}
         </p>
-        <button className="restart" onClick={() => setSurrender(true)}>
+        <button className="surrender" onClick={() => setSurrender(true)}>
           Surrender
         </button>
       </div>

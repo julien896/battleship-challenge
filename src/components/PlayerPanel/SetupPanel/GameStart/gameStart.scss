@@ -1,6 +1,18 @@
 @use '../../../../styles/variables' as *;
 
 .play-ready {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    & .player-tip {
+        font-size: 18px;
+        color: $black;
+        font-weight: 500;
+    }
+
     & input {
         outline: 0; 
         border: 0;
@@ -10,7 +22,7 @@
         border-radius: 2px;
         background: transparent;
         border-bottom: 1.5px solid $gray-6;
-        margin-bottom: 20px;
+        margin: 20px 0;
 
         &:focus {
             border-bottom: 1.5px solid $blue;
@@ -32,6 +44,7 @@
         width: 160px;
         border-radius: 5px;
         height: 35px;
+        margin-top: 20px;
 
         &:hover {
             background-color: $blue;

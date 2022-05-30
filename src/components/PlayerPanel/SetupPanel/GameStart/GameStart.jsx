@@ -18,7 +18,7 @@ function GameStart({ generateCpuShips }) {
 
   return (
     <div className="play-ready">
-      <p className="player-tip">Please, enter your name to begin.</p>
+      <p className="player-tip">Please, enter your<br /> name to begin.</p>
       <input
         value={playerName}
         onChange={(e) => setPlayerName(e.target.value)}
