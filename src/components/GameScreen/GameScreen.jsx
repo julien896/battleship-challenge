@@ -170,7 +170,6 @@ function GameScreen() {
 
   /* GAME END
    *  ─────────────────────────────────── */
-
   const checkIfGameOver = () => {
     const successfulPlayerHits = hitsByPlayer.filter(
       (hit) => hit.type === 'hit'
@@ -216,6 +215,7 @@ function GameScreen() {
         hitsByPlayer={hitsByPlayer}
         setHitsByPlayer={setHitsByPlayer}
         handleCpuTurn={handleCpuTurn}
+        checkIfGameOver={checkIfGameOver}
       />
     </div>
   );

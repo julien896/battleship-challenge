@@ -16,7 +16,8 @@ function CpuBoard({
   hitsByPlayer,
   setHitsByPlayer,
   setCpuShips,
-  handleCpuTurn
+  handleCpuTurn,
+  checkIfGameOver
 }) {
   const gameState = useSelector((state) => state.gameState.gameState);
 
@@ -66,6 +67,7 @@ function CpuBoard({
   };
 
   const playerTurn = gameState === 'player-turn';
+  const playerCanFire = playerTurn && !checkIfGameOver();
 
   const alreadyHit = (index) =>
     cpuLayout[index] === 'hit' ||
@@ -83,7 +85,7 @@ function CpuBoard({
       }
       id={`comp-square-${index}`}
       onClick={() => {
-        if (playerTurn && !alreadyHit(index)) {
+        if (playerCanFire && !alreadyHit(index)) {
           const newHits = playerFire(index);
           const shipsWithSunkFlag = updateSunkShips(newHits, cpuShips);
           setCpuShips(shipsWithSunkFlag);
