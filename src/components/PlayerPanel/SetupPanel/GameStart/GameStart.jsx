@@ -1,4 +1,4 @@
-/* eslint-disable */
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { savePlayerName } from '../../../../app/slices/playerSlice';
@@ -13,12 +13,15 @@ function GameStart({ generateCpuShips }) {
   const startTurn = () => {
     dispatch(savePlayerName(playerName));
     dispatch(setGameState('player-turn'));
-    generateCpuShips()
+    generateCpuShips();
   };
 
   return (
     <div className="play-ready">
-      <p className="player-tip">Please, enter your<br /> name to begin.</p>
+      <p className="player-tip">
+        Please, enter your
+        <br /> name to begin.
+      </p>
       <input
         value={playerName}
         onChange={(e) => setPlayerName(e.target.value)}
@@ -35,5 +38,9 @@ function GameStart({ generateCpuShips }) {
     </div>
   );
 }
+
+GameStart.propTypes = {
+  generateCpuShips: PropTypes.func.isRequired
+};
 
 export default GameStart;

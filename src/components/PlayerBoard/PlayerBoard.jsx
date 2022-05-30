@@ -1,4 +1,4 @@
-/* eslint-disable */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -61,6 +61,7 @@ function PlayerBoard({
 
   const squares = layout.map((square, index) => (
     <div
+      role="presentation"
       onClick={() => {
         if (canPlaceCurrentShip) {
           placeShip(currentlyPlacing);
@@ -70,6 +71,7 @@ function PlayerBoard({
       id={`square-${index}`}
       onContextMenu={(e) => e.preventDefault()}
       onMouseDown={rotateShip}
+      onFocus={() => {}}
       onMouseOver={() => {
         if (currentlyPlacing) {
           setCurrentlyPlacing({
@@ -87,5 +89,16 @@ function PlayerBoard({
     </div>
   );
 }
+
+PlayerBoard.propTypes = {
+  currentlyPlacing: PropTypes.object.isRequired,
+  hitsByComputer: PropTypes.array.isRequired,
+  placeShip: PropTypes.func.isRequired,
+  placedShips: PropTypes.shape({
+    reduce: PropTypes.func
+  }).isRequired,
+  rotateShip: PropTypes.func.isRequired,
+  setCurrentlyPlacing: PropTypes.func.isRequired
+};
 
 export default PlayerBoard;

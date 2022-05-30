@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGameState } from '../../app/slices/gameStateSlice';
@@ -48,17 +47,17 @@ function GameScreen() {
     });
   };
 
-  const placeShip = (currentlyPlacing) => {
+  const placeShip = (currently) => {
     setPlacedShips([
       ...placedShips,
       {
-        ...currentlyPlacing,
+        ...currently,
         placed: true
       }
     ]);
 
     setAvailableShips((previousShips) =>
-      previousShips.filter((ship) => ship.name !== currentlyPlacing.name)
+      previousShips.filter((ship) => ship.name !== currently.name)
     );
 
     setCurrentlyPlacing(null);
@@ -77,9 +76,35 @@ function GameScreen() {
   };
 
   const changeTurn = () => {
-    gameState === 'player-turn'
-      ? dispatch(setGameState('cpu-turn'))
-      : dispatch(setGameState('player-turn'));
+    if (gameState === 'player-turn') {
+      dispatch(setGameState('cpu-turn'));
+    } else {
+      dispatch(setGameState('player-turn'));
+    }
+  };
+
+  const checkIfGameOver = () => {
+    const successfulPlayerHits = hitsByPlayer.filter(
+      (hit) => hit.type === 'hit'
+    ).length;
+    const successfulCpuHits = hitsByComputer.filter(
+      (hit) => hit.type === 'hit'
+    ).length;
+
+    if (successfulCpuHits === 16 || successfulPlayerHits === 16 || surrender) {
+      dispatch(setGameState('game-over'));
+
+      if (successfulCpuHits === 16 || surrender) {
+        setWinner('cpu');
+      }
+      if (successfulPlayerHits === 16) {
+        setWinner('player');
+      }
+
+      return true;
+    }
+
+    return false;
   };
 
   // *** CPU ***
@@ -118,7 +143,7 @@ function GameScreen() {
     changeTurn();
 
     if (checkIfGameOver()) {
-      return
+      return;
     }
 
     let layout = placedShips.reduce(
@@ -168,34 +193,11 @@ function GameScreen() {
     setTimeout(() => {
       cpuFire(target, layout);
       dispatch(setGameState('player-turn'));
-    }, 500);
+    }, 700);
   };
 
   /* GAME END
    *  ─────────────────────────────────── */
-  const checkIfGameOver = () => {
-    const successfulPlayerHits = hitsByPlayer.filter(
-      (hit) => hit.type === 'hit'
-    ).length;
-    const successfulCpuHits = hitsByComputer.filter(
-      (hit) => hit.type === 'hit'
-    ).length;
-
-    if (successfulCpuHits === 16 || successfulPlayerHits === 16 || surrender) {
-      dispatch(setGameState('game-over'));
-
-      if (successfulCpuHits === 16 || surrender) {
-        setWinner('cpu');
-      }
-      if (successfulPlayerHits === 16) {
-        setWinner('player');
-      }
-
-      return true;
-    }
-
-    return false;
-  };
 
   const startAgain = () => {
     dispatch(setGameState('placement'));

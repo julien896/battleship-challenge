@@ -1,4 +1,4 @@
-/* eslint-disable */
+import PropTypes from 'prop-types';
 import React from 'react';
 import ShipReplica from '../../../base/ShipReplica/ShipReplica';
 import './shipsDisposition.scss';
@@ -26,17 +26,31 @@ function ShipsDisposition({
 
   return (
     <div className="replica-fleet">
-      <span className='indication'>Place your ships<br /> on the board.</span>
+      <span className="indication">
+        Place your ships
+        <br /> on the board.
+      </span>
       {shipReplicaBoxes}
       <span className="player-tip">
         Right click to rotate <br />
         before you position.
       </span>
-      <button className="restart" onClick={startAgain}>
+      <button type="button" className="restart" onClick={startAgain}>
         Restart
       </button>
     </div>
   );
 }
+
+ShipsDisposition.propTypes = {
+  availableShips: PropTypes.shape({
+    map: PropTypes.func
+  }).isRequired,
+  currentlyPlacing: PropTypes.shape({
+    name: PropTypes.string
+  }).isRequired,
+  selectShip: PropTypes.func.isRequired,
+  startAgain: PropTypes.func.isRequired
+};
 
 export default ShipsDisposition;

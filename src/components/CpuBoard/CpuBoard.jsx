@@ -1,4 +1,4 @@
-/* eslint-disable */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -64,6 +64,7 @@ function CpuBoard({
       setHitsByPlayer(newHits);
       return newHits;
     }
+    return null;
   };
 
   const playerTurn = gameState === 'player-turn';
@@ -76,6 +77,7 @@ function CpuBoard({
 
   const cpuSquares = cpuLayout.map((square, index) => (
     <div
+      role="presentation"
       className={
         stateToClassName[square] === 'hit' ||
         stateToClassName[square] === 'miss' ||
@@ -101,5 +103,18 @@ function CpuBoard({
     </div>
   );
 }
+
+CpuBoard.propTypes = {
+  checkIfGameOver: PropTypes.func.isRequired,
+  cpuShips: PropTypes.shape({
+    reduce: PropTypes.func
+  }).isRequired,
+  handleCpuTurn: PropTypes.func.isRequired,
+  hitsByPlayer: PropTypes.shape({
+    reduce: PropTypes.func
+  }).isRequired,
+  setCpuShips: PropTypes.func.isRequired,
+  setHitsByPlayer: PropTypes.func.isRequired
+};
 
 export default CpuBoard;

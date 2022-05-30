@@ -1,4 +1,4 @@
-/* eslint-disable */
+import PropTypes from 'prop-types';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import CommentsPanel from './CommentsPanel/CommentsPanel';
@@ -19,7 +19,7 @@ function PlayerPanel({
   const gameState = useSelector((state) => state.gameState.gameState);
 
   return gameState !== 'placement' ? (
-    <CommentsPanel 
+    <CommentsPanel
       winner={winner}
       surrender={surrender}
       setSurrender={setSurrender}
@@ -38,5 +38,18 @@ function PlayerPanel({
     />
   );
 }
+
+PlayerPanel.propTypes = {
+  availableShips: PropTypes.array.isRequired,
+  currentlyPlacing: PropTypes.bool.isRequired,
+  generateCpuShips: PropTypes.func.isRequired,
+  hitsByComputer: PropTypes.array.isRequired,
+  hitsByPlayer: PropTypes.array.isRequired,
+  selectShip: PropTypes.func.isRequired,
+  setSurrender: PropTypes.func.isRequired,
+  startAgain: PropTypes.func.isRequired,
+  surrender: PropTypes.bool.isRequired,
+  winner: PropTypes.string.isRequired
+};
 
 export default PlayerPanel;

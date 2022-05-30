@@ -1,4 +1,4 @@
-/* eslint-disable */
+import PropTypes from 'prop-types';
 import React from 'react';
 import GameStart from './GameStart/GameStart';
 import ShipsDisposition from './ShipsDisposition/ShipsDisposition';
@@ -26,5 +26,16 @@ function SetupPanel({
     </div>
   );
 }
+
+SetupPanel.propTypes = {
+  availableShips: PropTypes.shape({
+    length: PropTypes.number
+  }).isRequired,
+  currentlyPlacing: PropTypes.bool.isRequired,
+  generateCpuShips: PropTypes.func.isRequired,
+  selectShip: PropTypes.func.isRequired,
+  startAgain: PropTypes.func.isRequired,
+  startTurn: PropTypes.func.isRequired
+};
 
 export default SetupPanel;
