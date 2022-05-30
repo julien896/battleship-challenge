@@ -225,7 +225,7 @@ export const getNeighbors = (coords) => {
       { x: coords.x, y: coords.y + 1 }
     );
   }
-  console.log('neighbors', neighbors);
+
   const filteredResult = [
     ...new Set(
       neighbors

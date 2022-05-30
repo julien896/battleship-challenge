@@ -114,6 +114,10 @@ function GameScreen() {
   const handleCpuTurn = () => {
     changeTurn();
 
+    if (checkIfGameOver()) {
+      return
+    }
+
     let layout = placedShips.reduce(
       (prevLayout, currentShip) =>
         putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
@@ -161,7 +165,34 @@ function GameScreen() {
     setTimeout(() => {
       cpuFire(target, layout);
       dispatch(setGameState('player-turn'));
-    }, 800);
+    }, 500);
+  };
+
+  /* GAME END
+   *  ─────────────────────────────────── */
+
+  const checkIfGameOver = () => {
+    const successfulPlayerHits = hitsByPlayer.filter(
+      (hit) => hit.type === 'hit'
+    ).length;
+    const successfulCpuHits = hitsByComputer.filter(
+      (hit) => hit.type === 'hit'
+    ).length;
+
+    if (successfulCpuHits === 16 || successfulPlayerHits === 16) {
+      dispatch(setGameState('game-over'));
+
+      if (successfulCpuHits === 16) {
+        setWinner('cpu');
+      }
+      if (successfulPlayerHits === 16) {
+        setWinner('player');
+      }
+
+      return true;
+    }
+
+    return false;
   };
   return (
     <div className="game-screen">
