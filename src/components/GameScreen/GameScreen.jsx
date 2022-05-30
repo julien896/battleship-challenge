@@ -80,6 +80,7 @@ function GameScreen() {
       />
       <CpuBoard 
         cpuShips={cpuShips}
+        setCpuShips={setCpuShips}
         hitsByPlayer={hitsByPlayer}
         setHitsByPlayer={setHitsByPlayer}
       />

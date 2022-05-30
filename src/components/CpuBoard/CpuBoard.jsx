@@ -5,11 +5,12 @@ import {
   stateToClassName,
   SQUARE_STATE,
   putEntityInLayout,
-  indexToCoords
+  indexToCoords,
+  updateSunkShips
 } from '../../constants/layout';
 import '../../styles/base/board.scss';
 
-function CpuBoard({ cpuShips, hitsByPlayer, setHitsByPlayer }) {
+function CpuBoard({ cpuShips, hitsByPlayer, setHitsByPlayer, setCpuShips }) {
   let cpuLayout = cpuShips.reduce(
     (prevLayout, currentShip) =>
       putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
@@ -55,8 +56,6 @@ function CpuBoard({ cpuShips, hitsByPlayer, setHitsByPlayer }) {
     }
   };
 
-  console.log(hitsByPlayer);
-
   const cpuSquares = cpuLayout.map((square, index) => (
     <div
       className={
@@ -67,7 +66,11 @@ function CpuBoard({ cpuShips, hitsByPlayer, setHitsByPlayer }) {
           : `square`
       }
       id={`comp-square-${index}`}
-      onClick={() => playerFire(index)}
+      onClick={() => {
+          const newHits = playerFire(index);
+          const shipsWithSunkFlag = updateSunkShips(newHits, cpuShips);
+          setCpuShips(shipsWithSunkFlag);
+      }}
     />
   ));
   return (

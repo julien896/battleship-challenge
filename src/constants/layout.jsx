@@ -158,3 +158,21 @@ export const placeAllCpuShips = (cpuShips) => {
     }
   });
 };
+
+export const updateSunkShips = (currentHits, opponentShips) => {
+  const playerHitIndices = currentHits.map((hit) =>
+    coordsToIndex(hit.position)
+  );
+
+  const indexWasHit = (index) => playerHitIndices.includes(index);
+
+  const shipsWithSunkFlag = opponentShips.map((ship) => {
+    const shipIndices = entityIndices2(ship);
+    if (shipIndices.every((idx) => indexWasHit(idx))) {
+      return { ...ship, sunk: true };
+    }
+    return { ...ship, sunk: false };
+  });
+
+  return shipsWithSunkFlag;
+};
