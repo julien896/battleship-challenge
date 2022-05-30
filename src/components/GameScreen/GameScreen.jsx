@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGameState } from '../../app/slices/gameStateSlice';
+import { savePlayerName } from '../../app/slices/playerSlice';
 import CpuBoard from '../CpuBoard/CpuBoard';
 import PlayerBoard from '../PlayerBoard/PlayerBoard';
 import PlayerPanel from '../PlayerPanel';
@@ -32,6 +33,8 @@ function GameScreen() {
 
   const [hitsByPlayer, setHitsByPlayer] = useState([]);
   const [hitsByComputer, setHitsByComputer] = useState([]);
+
+  const [surrender, setSurrender] = useState(false);
 
   // *** PLAYER ***
   const selectShip = (shipName) => {
@@ -178,10 +181,10 @@ function GameScreen() {
       (hit) => hit.type === 'hit'
     ).length;
 
-    if (successfulCpuHits === 16 || successfulPlayerHits === 16) {
+    if (successfulCpuHits === 16 || successfulPlayerHits === 16 || surrender) {
       dispatch(setGameState('game-over'));
 
-      if (successfulCpuHits === 16) {
+      if (successfulCpuHits === 16 || surrender) {
         setWinner('cpu');
       }
       if (successfulPlayerHits === 16) {
@@ -193,6 +196,19 @@ function GameScreen() {
 
     return false;
   };
+
+  const startAgain = () => {
+    dispatch(setGameState('placement'));
+    dispatch(savePlayerName(''));
+    setWinner(null);
+    setSurrender(false);
+    setCurrentlyPlacing(null);
+    setPlacedShips([]);
+    setAvailableShips(AVAILABLE_SHIPS);
+    setCpuShips([]);
+    setHitsByPlayer([]);
+    setHitsByComputer([]);
+  };
   return (
     <div className="game-screen">
       <PlayerPanel
@@ -200,6 +216,10 @@ function GameScreen() {
         selectShip={selectShip}
         currentlyPlacing={currentlyPlacing}
         generateCpuShips={generateCpuShips}
+        surrender={surrender}
+        setSurrender={setSurrender}
+        winner={winner}
+        startAgain={startAgain}
       />
       <PlayerBoard
         placeShip={placeShip}

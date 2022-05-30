@@ -3,7 +3,12 @@ import React from 'react';
 import ShipReplica from '../../../base/ShipReplica/ShipReplica';
 import './shipsDisposition.scss';
 
-function ShipsDisposition({ availableShips, selectShip, currentlyPlacing }) {
+function ShipsDisposition({
+  availableShips,
+  selectShip,
+  currentlyPlacing,
+  startAgain
+}) {
   const shipsLeft = availableShips.map((ship) => ship.name);
 
   /*  For every ship still available, return a Replica Box */
@@ -27,7 +32,9 @@ function ShipsDisposition({ availableShips, selectShip, currentlyPlacing }) {
         Right click to rotate <br />
         before you position.
       </span>
-      <p className="restart">Restart</p>
+      <button className="restart" onClick={startAgain}>
+        Restart
+      </button>
     </div>
   );
 }
