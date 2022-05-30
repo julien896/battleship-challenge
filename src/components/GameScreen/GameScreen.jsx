@@ -220,6 +220,8 @@ function GameScreen() {
         setSurrender={setSurrender}
         winner={winner}
         startAgain={startAgain}
+        hitsByComputer={hitsByComputer}
+        hitsByPlayer={hitsByPlayer}
       />
       <PlayerBoard
         placeShip={placeShip}

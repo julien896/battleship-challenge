@@ -6,10 +6,12 @@ function CommentsPanel({
   surrender,
   setSurrender,
   gameState,
-  startAgain
+  startAgain,
+  hitsByComputer,
+  hitsByPlayer
 }) {
   const gameOver = (
-    <div className='game-over'>
+    <div className="game-over">
       <div className="title">Game Over!</div>
       <p className="winner">
         {winner === 'cpu' && surrender
@@ -25,9 +27,14 @@ function CommentsPanel({
   );
 
   const comments = (
-    <div className='comments'>
-      <div className="title">
-        The first to sink all 5 opponent ships wins.
+    <div className="comments">
+      <div className="title">The first to sink all 5 opponent ships wins.</div>
+      <div>
+        {gameState === 'player-turn'
+          ? hitsByComputer.length &&
+            `${hitsByComputer[hitsByComputer.length - 1].type.toUpperCase()}!`
+          : hitsByPlayer.length &&
+            `${hitsByPlayer[hitsByPlayer.length - 1].type.toUpperCase()}!`}
       </div>
       <div>
         <p className="game-state">
@@ -40,7 +47,9 @@ function CommentsPanel({
     </div>
   );
 
-  return <div className='comments-container'>{winner ? gameOver : comments}</div>;
+  return (
+    <div className="comments-container">{winner ? gameOver : comments}</div>
+  );
 }
 
 export default CommentsPanel;

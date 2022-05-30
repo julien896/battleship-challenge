@@ -12,7 +12,9 @@ function PlayerPanel({
   surrender,
   setSurrender,
   winner,
-  startAgain
+  startAgain,
+  hitsByPlayer,
+  hitsByComputer
 }) {
   const gameState = useSelector((state) => state.gameState.gameState);
 
@@ -23,6 +25,8 @@ function PlayerPanel({
       setSurrender={setSurrender}
       gameState={gameState}
       startAgain={startAgain}
+      hitsByComputer={hitsByComputer}
+      hitsByPlayer={hitsByPlayer}
     />
   ) : (
     <SetupPanel
