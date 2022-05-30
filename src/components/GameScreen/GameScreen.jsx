@@ -60,7 +60,6 @@ function GameScreen() {
     const placedCpuShips = placeAllCpuShips(AVAILABLE_SHIPS.slice());
     setCpuShips(placedCpuShips);
   };
-  console.log(cpuShips);
   return (
     <div className="game-screen">
       <PlayerPanel
@@ -76,7 +75,9 @@ function GameScreen() {
         setCurrentlyPlacing={setCurrentlyPlacing}
         rotateShip={rotateShip}
       />
-      <CpuBoard />
+      <CpuBoard 
+        cpuShips={cpuShips}
+      />
     </div>
   );
 }
