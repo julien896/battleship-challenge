@@ -11,7 +11,8 @@ function ShipsDisposition({
 }) {
   const shipsLeft = availableShips.map((ship) => ship.name);
 
-  /*  For every ship still available, return a Replica Box */
+  /*  For every ship still available, return a Replica Box of the ship, 
+  with it's name and it's length representation by color squares */
   const shipReplicaBoxes = shipsLeft.map((shipName) => (
     <ShipReplica
       key={shipName}

@@ -83,6 +83,7 @@ function GameScreen() {
     }
   };
 
+  // Check if either player or computer ended the game
   const checkIfGameOver = () => {
     const successfulPlayerHits = hitsByPlayer.filter(
       (hit) => hit.type === 'hit'
@@ -139,6 +140,7 @@ function GameScreen() {
     setHitsByComputer(cpuHits);
   };
 
+  // Change to computer turn, check if game over and stop if yes; if not fire into an eligible square
   const handleCpuTurn = () => {
     changeTurn();
 
@@ -146,6 +148,7 @@ function GameScreen() {
       return;
     }
 
+    // Recreate layout to get eligible squares
     let layout = placedShips.reduce(
       (prevLayout, currentShip) =>
         putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),

@@ -21,12 +21,14 @@ function CpuBoard({
 }) {
   const gameState = useSelector((state) => state.gameState.gameState);
 
+  // Ships on an empty layout
   let cpuLayout = cpuShips.reduce(
     (prevLayout, currentShip) =>
       putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
     generateEmptyLayout()
   );
 
+  //  Add hits dealt by player
   cpuLayout = hitsByPlayer.reduce(
     (prevLayout, currentHit) =>
       putEntityInLayout(prevLayout, currentHit, currentHit.type),
@@ -41,6 +43,7 @@ function CpuBoard({
     cpuLayout
   );
 
+  // Check what's at the square and decide what next
   const playerFire = (index) => {
     if (cpuLayout[index] === 'ship') {
       const newHits = [
@@ -78,6 +81,7 @@ function CpuBoard({
   const cpuSquares = cpuLayout.map((square, index) => (
     <div
       role="presentation"
+      // Only display square if it's a hit, miss, or sunk ship
       className={
         stateToClassName[square] === 'hit' ||
         stateToClassName[square] === 'miss' ||

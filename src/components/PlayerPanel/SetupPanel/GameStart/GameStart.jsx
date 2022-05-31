@@ -23,11 +23,13 @@ function GameStart({ generateCpuShips }) {
         <br /> name to begin.
       </p>
       <input
+        data-testid="player-name"
         value={playerName}
         onChange={(e) => setPlayerName(e.target.value)}
         placeholder="Player name"
       />
       <button
+        data-testid="play-button"
         disabled={playerName === ''}
         onClick={startTurn}
         className="play-button"

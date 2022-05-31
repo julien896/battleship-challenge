@@ -4,3 +4,10 @@
   grid-template-columns: 1fr 2fr 2fr;
   grid-column-gap: 20px;
 }
+
+@media screen and (max-width: 1100px) {
+  .game-screen {
+    display: flex;
+    flex-direction: column;
+  }
+}

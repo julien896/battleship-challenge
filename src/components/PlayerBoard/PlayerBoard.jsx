@@ -22,12 +22,14 @@ function PlayerBoard({
 }) {
   const playerName = useSelector((state) => state.player.name);
 
+  // Player ships on empty layout
   let layout = placedShips.reduce(
     (prevLayout, currentShip) =>
       putEntityInLayout(prevLayout, currentShip, SQUARE_STATE.ship),
     generateEmptyLayout()
   );
 
+  // Hits by computer
   layout = hitsByComputer.reduce(
     (prevLayout, currentHit) =>
       putEntityInLayout(prevLayout, currentHit, currentHit.type),

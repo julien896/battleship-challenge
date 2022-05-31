@@ -24,8 +24,15 @@ function CommentsPanel({
   const gameOver = (
     <div className="game-over">
       <div className="title">Game Over!</div>
-      <p className="winner">{gameOverState()}</p>
-      <button type="button" className="restart" onClick={startAgain}>
+      <p data-testid="winner" className="winner">
+        {gameOverState()}
+      </p>
+      <button
+        data-testid="restart"
+        type="button"
+        className="restart"
+        onClick={startAgain}
+      >
         Start Screen
       </button>
     </div>
@@ -49,7 +56,7 @@ function CommentsPanel({
         </div>
       ) : null}
       <div>
-        <p className="game-state">
+        <p data-testid="game-state" className="game-state">
           {gameState === 'player-turn' ? 'Playing: You' : 'Playing: CPU'}
         </p>
         <button

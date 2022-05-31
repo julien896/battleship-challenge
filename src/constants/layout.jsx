@@ -26,12 +26,13 @@ export const stateToClassName = {
   [SQUARE_STATE.awaiting]: 'awaiting'
 };
 
+// Returns an empty board
 export const generateEmptyLayout = () =>
   new Array(BOARD_ROWS * BOARD_COLUMNS).fill(SQUARE_STATE.empty);
 
+// Returns the index of a clicked square from coordinates and viceversa
 export const coordsToIndex = (coordinates) => {
   const { x, y } = coordinates;
-
   return y * BOARD_ROWS + x;
 };
 
@@ -40,6 +41,7 @@ export const indexToCoords = (index) => ({
   y: Math.floor(index / BOARD_ROWS)
 });
 
+// Returns the indices that entity would take up
 export const entityIndices = (entity) => {
   let position = coordsToIndex(entity.position);
 
@@ -67,12 +69,14 @@ export const entityIndices2 = (entity) => {
   return indices;
 };
 
+// Checks the ship doesn't overflow
 export const isWithinBounds = (entity) =>
   (entity.orientation === 'vertical' &&
     entity.position.y + entity.length <= BOARD_ROWS) ||
   (entity.orientation === 'horizontal' &&
     entity.position.x + entity.length <= BOARD_COLUMNS);
 
+// Place an entity on a layout
 export const putEntityInLayout = (oldLayout, entity, type) => {
   const newLayout = oldLayout.slice();
 
@@ -105,12 +109,15 @@ export const putEntityInLayout = (oldLayout, entity, type) => {
   return newLayout;
 };
 
+// Check that the indices of the ship currently being placed all correspond to empty squares
 export const isPlaceFree = (entity, layout) => {
   const shipIndices = entityIndices2(entity);
 
   return shipIndices.every((idx) => layout[idx] === SQUARE_STATE.empty);
 };
 
+// Used during placement to calculate how many squares a ship is out of bounds,
+// so that the remaining squares on the board turn red
 export const calculateOverhang = (entity) =>
   Math.max(
     entity.orientation === 'vertical'
@@ -119,9 +126,12 @@ export const calculateOverhang = (entity) =>
     0
   );
 
+// Checks if the ship you're trying to place is within bounds and the space is free.
+// Both need to return true
 export const canBePlaced = (entity, layout) =>
   isWithinBounds(entity) && isPlaceFree(entity, layout);
 
+// Generate a random orientation and starting index on board for computer ships
 export const generateRandomOrientation = () => {
   const randomNumber = Math.floor(Math.random() * Math.floor(2));
 
@@ -131,6 +141,7 @@ export const generateRandomOrientation = () => {
 export const generateRandomIndex = (value = BOARD) =>
   Math.floor(Math.random() * Math.floor(value));
 
+// Assign a ship a random orientation and set of coordinates
 export const randomizeShipProps = (ship) => {
   const randomStartIndex = generateRandomIndex();
 
@@ -141,6 +152,8 @@ export const randomizeShipProps = (ship) => {
   };
 };
 
+// Generates layout and assigns each CPU ship a random orientation and set of
+// coordinates; returns all placed ships
 export const placeAllCpuShips = (cpuShips) => {
   let cpuLayout = generateEmptyLayout();
   return cpuShips.map((ship) => {
@@ -159,6 +172,7 @@ export const placeAllCpuShips = (cpuShips) => {
   });
 };
 
+// Give ships a sunk flag to update their color
 export const updateSunkShips = (currentHits, opponentShips) => {
   const playerHitIndices = currentHits.map((hit) =>
     coordsToIndex(hit.position)
@@ -177,6 +191,7 @@ export const updateSunkShips = (currentHits, opponentShips) => {
   return shipsWithSunkFlag;
 };
 
+// Gets the neighboring squares to a successful CPU hit
 export const getNeighbors = (coords) => {
   const firstRow = coords.y === 0;
   const lastRow = coords.y === 9;

@@ -61,3 +61,11 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .play-ready {
+        & input {
+            width: 50%;
+        }
+    }
+}
